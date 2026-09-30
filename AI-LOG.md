@@ -38,4 +38,25 @@ and only caught on review that it does not say what gets rounded or which way a
 half goes, so a stranger could write code that passes my tests and fails the
 grader's.
 By hand: the rounding rule — round the total once at the end with `Math.round`, so
-a half đồng goes up.
+a half đồng goes up. I have not seen the session 2 slides, so I am declaring it
+rather than claiming they back me up. If they differ, the brief says to follow the
+slides and note the difference, not to keep my version.
+
+## 2026-09-30 — implementing cartTotal
+Tool: OpenCode (this session).
+Asked for: implement `brief.md` — `cartTotal` in `src/cart.js` plus tests, following
+YAGNI, no unrelated or unused code.
+Kept: validating each item before it adds to the subtotal, so a bad price throws
+even when a later line item would have changed the total. And the early return for
+the empty cart, because without it `0 >= freeShipFrom` is false and an empty cart
+picks up the shipFee — that test fails on the missing guard and nothing else.
+Changed: the free-shipping test. It asserted 540000, which is subtotal plus VAT, so
+a VAT bug and a shipping bug failed identically and the failure said nothing about
+which. Set `vatRate: 0` there, so the expected number is 500000 and only the shipping
+rule can break it. Then added a rounding test, after realising nothing pinned the
+tiebreak — the one decision in the brief the grader could disagree with.
+By hand: nothing in `src/cart.js` beyond the arithmetic and the two guards; every
+line is load-bearing. The test names, the `vatRate: 0` change and the rounding case
+were mine. Verified rather than assumed: swapping `Math.round` for `Math.floor` turned
+exactly the rounding test red and the other six green, then I restored the file, so
+that test fails for the reason it claims to.
