@@ -18,8 +18,17 @@ test('an empty cart is 0', () => {
 
 test('shipping is 0 at the free-shipping threshold', () => {
   const items = [{ name: 'Áo thun', price: 250000, qty: 2 }]
-  // subtotal 500000 = freeShipFrom, so no shipFee: 500000 + 40000 vat
-  assert.equal(cartTotal(items, options), 540000)
+  // subtotal 500000 = freeShipFrom, so no shipFee. vatRate 0 isolates
+  // the shipping rule from the VAT rule.
+  const noVat = { vatRate: 0, freeShipFrom: 500000, shipFee: 30000 }
+  assert.equal(cartTotal(items, noVat), 500000)
+})
+
+test('a half đồng rounds up', () => {
+  // subtotal 10, vat 0.5, no shipping: the total is 10.5
+  const items = [{ name: 'Áo thun', price: 5, qty: 2 }]
+  const half = { vatRate: 0.05, freeShipFrom: 1000000, shipFee: 0 }
+  assert.equal(cartTotal(items, half), 11)
 })
 
 test('a negative price throws RangeError', () => {
