@@ -20,3 +20,22 @@ tests run, which would have been a red CI on top of a green local run. `npm inst
 instead.
 By hand: the `cartTotal` contract and the five nevers, from the README spec and the
 rubric. I wrote those; the tool only arranged them into sections.
+
+## 2026-09-30 — brief.md
+Tool: OpenCode (this session).
+Asked for: the brief for implementing `cartTotal`, in the five parts the rubric
+names, concise and specific.
+Kept: the case table from the README spec, unaltered, so the numbers in the brief
+match the numbers the grader runs.
+Changed: on my own reading of the rubric, three things — moved `AGENTS.md` and
+`AI-LOG.md` out of the must-not-touch list into a "say so and stop" clause, because
+the rules file told me to log every task while the brief forbade the log; gave the
+error cases their own heading, so a marker scanning for them finds them; and added
+a rule for `options` fields the spec never mentions, to close a gap that let a
+stranger guess.
+Rejected: leaving the rounding vague. The agent first wrote "rounded to the whole đồng"
+and only caught on review that it does not say what gets rounded or which way a
+half goes, so a stranger could write code that passes my tests and fails the
+grader's.
+By hand: the rounding rule — round the total once at the end with `Math.round`, so
+a half đồng goes up.
